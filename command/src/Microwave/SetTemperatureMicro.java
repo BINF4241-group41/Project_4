@@ -1,6 +1,7 @@
 package Microwave;
 
-public class SetTemperatureMicro implements Command{
+
+public class SetTemperatureMicro implements ICommand {
 
     private Microwave microwave;
 

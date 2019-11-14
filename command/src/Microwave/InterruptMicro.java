@@ -1,11 +1,12 @@
 package Microwave;
 
-public class InterruptMicro implements Command{
+
+public class InterruptMicro implements ICommand {
 
     private Microwave microwave;
 
     public InterruptMicro(Microwave microwave){
-        this.microwave=microwave;
+        this.microwave = microwave;
     }
 
     public void execute(){

@@ -1,16 +1,16 @@
-public abstract class HomeDevice{
+public abstract class HomeDevice {
     
     protected boolean on;
 
     public HomeDevice(){
-        this.on=false;
+        this.on = false;
     } 
 
     public void switchOn(){
-        on=true;
+        on = true;
     }
     public void switchOff(){
-        on=false;
+        on = false;
     }
 
 }

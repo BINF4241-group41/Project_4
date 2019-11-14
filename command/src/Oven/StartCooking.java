@@ -1,9 +1,12 @@
-public class StartCooking implements Command{
+package Oven;
 
-    private Oven oven;
 
-    public StartCooking(Oven oven){
-        this.oven=oven;
+public class StartCooking implements ICommand {
+
+    private Oven.Oven oven;
+
+    public StartCooking(Oven.Oven oven){
+        this.oven = oven;
     }
 
     public void execute(){

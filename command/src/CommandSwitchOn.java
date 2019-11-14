@@ -1,11 +1,12 @@
-public class CommandSwitchOn implements Command {
-    OnOffSwitchable switchable;
+public class CommandSwitchOn implements ICommand {
 
-    public CommandSwitchOn(OnOffSwitchable switchable) {
-        this.switchable = switchable;
+    HomeDevice device;
+
+    public CommandSwitchOn(HomeDevice device) {
+        this.device = device;
     }
 
     public void execute() {
-        switchable.switchOn();
+        device.switchOn();
     }
 }

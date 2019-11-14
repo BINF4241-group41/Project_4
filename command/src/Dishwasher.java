@@ -1,9 +1,6 @@
-public class Dishwasher implements OnOffSwitchable {
+public class Dishwasher extends HomeDevice implements ITimerCheck {
 
-    public void switchOn() {
-        return;
-    }
-    public void switchOff() {
-        return;
+    public int checkTimer() {
+        return 0;
     }
 }

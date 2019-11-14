@@ -1,15 +1,25 @@
-public class Microwave extends Device{
+package Microwave;
+
+
+public class Microwave extends HomeDevice implements ITimerSet, ITimerCheck {
 
 
     private float temperature;
 
     public Microwave(){
         super();
-        this.Temperature=0;
+        this.temperature = 0;
     }
 
-    public setTemperature(flaot temperature){
-        this.temperature=temperature;
+    public void setTemperature(float temperature){
+        this.temperature = temperature;
     }
 
+    public void setTimer(int durationInSeconds) {
+        return;
+    }
+
+    public int checkTimer() {
+        return 0;
+    }
 }

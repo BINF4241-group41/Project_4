@@ -1,13 +1,16 @@
+package Oven;
+
 import java.util.ArrayList;
 
-public class Oven extends HomeDevice{
+
+public class Oven extends command.HomeDevice implements ITimerCheck, command.ITimerSet {
 
     
     private boolean running;
     private float temperature;
     private ArrayList<String> programs;
     private String actualProgram;
-    private Timer timer=null;
+    private command.Timer timer=null;
     private static final String DEFAULT_PROGRAM="noProgram";
 
     public Oven(){
@@ -20,7 +23,7 @@ public class Oven extends HomeDevice{
     }
 
     public void setTimer(int time){
-        this.timer=new Timer(time*1000);
+        this.timer=new command.Timer(time*1000);
     }
     public void setTemperature(float temperature){
         this.temperature=temperature;

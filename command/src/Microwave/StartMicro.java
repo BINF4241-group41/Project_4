@@ -1,5 +1,6 @@
 package Microwave;
 
+
 public class StartMicro implements Command{
 
     private Microwave microwave;

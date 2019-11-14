@@ -1,12 +1,12 @@
 public class CommandSwitchOff {
 
-    OnOffSwitchable switchable;
+    HomeDevice device;
 
-    public CommandSwitchOff(OnOffSwitchable switchable) {
-        this.switchable = switchable;
+    public CommandSwitchOff(HomeDevice device) {
+        this.device = device;
     }
 
     public void execute() {
-        switchable.switchOff();
+        device.switchOff();
     }
 }
