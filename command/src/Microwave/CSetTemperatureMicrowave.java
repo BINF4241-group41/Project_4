@@ -1,11 +1,11 @@
 package Microwave;
 
 
-public class SetTemperatureMicro implements ICommand {
+public class CSetTemperatureMicrowave implements General.ICommand {
 
     private Microwave microwave;
 
-    public SetTemperatureMicro(Microwave microwave){
+    public CSetTemperatureMicrowave(Microwave microwave){
         this.microwave=microwave;
     }
 

@@ -1,11 +1,11 @@
 package Microwave;
 
 
-public class StartMicro implements Command{
+public class CStartMicrowave implements General.ICommand {
 
     private Microwave microwave;
 
-    public StartMicro(Microwave microwave){
+    public CStartMicrowave(Microwave microwave){
         this.microwave=microwave;
     }
 

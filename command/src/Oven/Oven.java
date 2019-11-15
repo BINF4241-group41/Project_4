@@ -3,28 +3,30 @@ package Oven;
 import java.util.ArrayList;
 
 
-public class Oven extends command.HomeDevice implements ITimerCheck, command.ITimerSet {
+public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, General.ITimerSet {
 
-    
+    private boolean on = false;
+
     private boolean running;
     private float temperature;
     private ArrayList<String> programs;
     private String actualProgram;
-    private command.Timer timer=null;
+    private General.Timer timer=null;
     private static final String DEFAULT_PROGRAM="noProgram";
 
     public Oven(){
         super();
-        this.actualProgram=defaultProgram;
+        this.actualProgram = DEFAULT_PROGRAM;
         this.temperature=0;
         this.programs=new ArrayList<String>();
-        addProgram(progrms);
+        addProgram(programs);
         this.running=false;    
     }
 
     public void setTimer(int time){
-        this.timer=new command.Timer(time*1000);
+        this.timer=new General.Timer(time*1000);
     }
+
     public void setTemperature(float temperature){
         this.temperature=temperature;
     }
@@ -35,16 +37,22 @@ public class Oven extends command.HomeDevice implements ITimerCheck, command.ITi
             t.start();
         }
     }
+
     public int checkTimer(){
-        if(running && timer!=null)return timer;
+        if (running && timer!=null) {
+            //return timer;
+        }
+        return 0;
         //i don't understand the otherwise part on the paper
     }
+
     public void interruptProgram(){
         if(running){
             running=false;
             timer=null;
         }
     }
+
     private void addProgram(ArrayList<String> list){
         list.add("ventilated");
         list.add("grill");
@@ -54,10 +62,12 @@ public class Oven extends command.HomeDevice implements ITimerCheck, command.ITi
         if (programs.contains(program)){
             actualProgram=program;
             return true;
-        }else{
+        }
+        else{
             return false;
         }
-    } 
+    }
+
     //add_by_me
     //maybe we can use an interface
     public String display(){
@@ -70,17 +80,26 @@ public class Oven extends command.HomeDevice implements ITimerCheck, command.ITi
 
         return output;
     }
+
     //--------------
-    public String showProgram(){
+    public String getProgram(){
         String s="";
         for (String r : programs){
-            s=s+r+"\n";
+            s += r + "\n";
         }
         return s;
     }
 
     public String currentProgram(){
         return actualProgram;
+    }
+
+    public void switchOn() {
+        this.on = true;
+    }
+
+    public void switchOff() {
+        this.on = false;
     }
     
 }   

@@ -1,11 +1,13 @@
+package General;
+
 import java.util.Scanner;
 
 
-public class CommandSetTimer implements ICommand {
+public class CSetTimer implements ICommand {
 
     ITimerSet canSetTimerObject;
 
-    public CommandSetTimer(ITimerSet canSetTimerObject) {
+    public CSetTimer(ITimerSet canSetTimerObject) {
         this.canSetTimerObject = canSetTimerObject;
     }
 
