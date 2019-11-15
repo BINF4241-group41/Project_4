@@ -5,11 +5,12 @@ public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, G
     private boolean on;
     private float temperature;
     private General.Timer timer=null;
-    private boolean running=false;
+    private boolean running;
 
     public Microwave(){
         this.on = false;
         this.temperature = 0;
+        timer.running=false;
     }
 
     public void setTemperature(float temperature){

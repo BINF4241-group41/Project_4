@@ -15,7 +15,6 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
     private static final String DEFAULT_PROGRAM="noProgram";
 
     public Oven(){
-        super();
         this.actualProgram = DEFAULT_PROGRAM;
         this.temperature=0;
         this.programs=new ArrayList<String>();
@@ -40,8 +39,8 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
     }
 
     public int checkTimer(){
-        if (running && timer!=null) {
-            //return timer;
+        if (timer!=null) {
+            return timer;
         }
         return 0;
         //i don't understand the otherwise part on the paper
