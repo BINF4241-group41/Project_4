@@ -10,6 +10,6 @@ public class CStartMicrowave implements General.ICommand {
     }
 
     public void execute(){
-
+        microwave.start();
     }
 }

@@ -22,7 +22,7 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
         addProgram(programs);
         this.running=false;    
     }
-
+    //maybe you don't need cause we have the common timer class
     public void setTimer(int time){
         this.timer=new General.Timer(time*1000);
     }
@@ -34,6 +34,7 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
     public void startCooking(){
         if(this.on && (temperature>0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer!=null){
             Thread t = new Thread(timer);
+            running=true;
             t.start();
         }
     }

@@ -10,6 +10,6 @@ public class CInterruptProgramMicrowave implements General.ICommand {
     }
 
     public void execute() {
-
+        microwave.interrupt();
     }
 }
