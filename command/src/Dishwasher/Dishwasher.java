@@ -34,7 +34,7 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     public String display(){
         String output="";
         for (Program pr : programs){
-            output=pr.getName()+"\n";
+            output=pr.getName()+"\n"+output;
         }
         return output;
     }
