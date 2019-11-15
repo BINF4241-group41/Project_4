@@ -10,7 +10,7 @@ public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, G
     public Microwave(){
         this.on = false;
         this.temperature = 0;
-        timer.running=false;
+        this.running=false;
     }
 
     public void setTemperature(float temperature){

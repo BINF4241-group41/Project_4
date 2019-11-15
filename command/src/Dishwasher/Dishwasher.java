@@ -8,6 +8,7 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     private ArrayList<Program> programs;
     private boolean running;
     private General.Timer timer=null;
+    private Program runnigProgram=null;
 
     public Dishwasher(){
         this.runningProgram=new Program("noProgram",0);
@@ -17,6 +18,10 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
         on=false;
 
     }
+    public String getProgram(){
+        return runningProgram.getName();
+    }
+
     private void setTimer(float time){
         this.timer= new General.Timer(time*1000);
     }
@@ -25,6 +30,13 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
            return timer;
         }
         return 0;
+    }
+    public String display(){
+        String output="";
+        for (Program pr : programs){
+            output=pr.getName()+"\n";
+        }
+        return output;
     }
     public void StartWash(){
         if(this.on && timer!=null){
@@ -58,6 +70,7 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
         for(Program pr : programs){
 
             if(pr.getName().equals(p)){
+                runningProgram=pr;
                 setTimer(pr.getMin());
                 return true;
             }

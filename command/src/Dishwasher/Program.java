@@ -1,4 +1,4 @@
-package DishWasher;
+package Dishwasher;
 
 public class Program{
     private String name;
