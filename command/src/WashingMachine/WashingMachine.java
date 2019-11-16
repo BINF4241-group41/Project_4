@@ -1,18 +1,18 @@
 package WashingMachine;
 
-import General.Program;
+import General.*;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import General.Timer;
 
-
-public class WashingMachine implements General.IOnOffSwitchable, General.IStartStoppable {
+public class WashingMachine implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable, ITemperatureSettable {
 
     private boolean on = false;
     private ArrayList<Program> programs;
     private Program currentProgram;
-    private int degrees;
+    private int degrees; // enum?
     private boolean running;
 
     public WashingMachine() {
@@ -48,10 +48,11 @@ public class WashingMachine implements General.IOnOffSwitchable, General.IStartS
         }
         else {
             this.currentProgram = Program.getNoProgram();
+            this.degrees = 0;
         }
     }
 
-    public void selectDegrees() {
+    public void setTemperature() {
         System.out.println("Please select the degrees (type abort to abort):\n40 C\n60 C\n90 C");
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
@@ -59,15 +60,22 @@ public class WashingMachine implements General.IOnOffSwitchable, General.IStartS
                 int nextInt = scanner.nextInt();
                 if (nextInt == 40 || nextInt == 60 || nextInt == 90) {
                     this.degrees = nextInt;
-                    return;
+                    break;
                 }
                 else {
                     System.out.println("Please select one of the provided values.");
                 }
             }
             else if (scanner.next().equals("abort")) {
-                return;
+                break;
             }
+        }
+        scanner.close();
+    }
+
+    public void setProgram(Program program) {
+        if (program != null) {
+            this.currentProgram = program;
         }
     }
 
@@ -76,5 +84,9 @@ public class WashingMachine implements General.IOnOffSwitchable, General.IStartS
         list.add(new Program("Intense", 120));
         list.add(new Program("Quick", 60));
         list.add(new Program("Spin", 120));
+    }
+
+    public ArrayList<Program> getPrograms() {
+        return new ArrayList<Program>(this.programs);
     }
 }

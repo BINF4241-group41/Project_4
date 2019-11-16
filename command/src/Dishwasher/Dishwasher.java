@@ -4,16 +4,16 @@ import General.Program;
 
 import java.util.ArrayList;
 
-public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable {
+public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable, General.IProgramSelectable, General.IStartStoppable {
 
     private boolean on;
     private ArrayList<Program> programs;
     private boolean running;
-    private General.Timer timer=null;
-    private Program runningProgram=null;
+    private General.Timer timer = null;
+    private Program currentProgram;
 
     public Dishwasher(){
-        this.runningProgram = new Program("noProgram",0);
+        this.currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
         addProgram(programs);
         this.running = false;
@@ -21,30 +21,40 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
 
     }
     public String getProgram(){
-        return runningProgram.getName();
+        return currentProgram.getName();
     }
 
     private void setTimer(int time){
         this.timer= new General.Timer(time*1000);
     }
+
     public int checkTimer() {
-        if (timer!=null) {
+        if (timer != null) {
            return timer;
         }
         return 0;
     }
-    public String display(){
-        String output="";
+
+    public String display() {
+        String output = "";
         for (Program pr : programs){
-            output=pr.getName()+"\n"+output;
+            output = pr.getName() + "\n" + output;
         }
         return output;
     }
-    public void StartWash(){
-        if(this.on && timer!=null){
+
+    public void start() {
+        if (this.on && timer != null){
             Thread t = new Thread(timer);
-            running=true;
+            running = true;
             t.start();
+        }
+    }
+
+    public void stop() {
+        if(running) {
+            running = false;
+            timer = null;
         }
     }
 
@@ -56,13 +66,6 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
         this.on = false;
     }
 
-    public void stopWash(){
-        if(running){
-            running=false;
-            timer=null;
-        }
-    }
-
     private void addProgram(ArrayList<Program> list){
         list.add(new Program("mixed",400));
         list.add(new Program("pans",300));
@@ -70,15 +73,14 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
         list.add(new Program("plates",100));
     }
 
-    public boolean chooseProgram(String p){
-        for(Program pr : programs){
+    public ArrayList<Program> getPrograms() {
+        return new ArrayList<Program>(this.programs);
+    }
 
-            if(pr.getName().equals(p)){
-                runningProgram=pr;
-                setTimer(pr.getMin());
-                return true;
-            }
+    @Override
+    public void setProgram(Program program) {
+        if (program != null) {
+            this.currentProgram = program;
         }
-        return false;
     }
 }

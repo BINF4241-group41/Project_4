@@ -3,7 +3,7 @@ package Oven;
 import java.util.ArrayList;
 
 
-public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, General.ITimerSet {
+public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, General.ITimerSet, General.IStartStoppable {
 
     private boolean on = false;
 
@@ -30,7 +30,7 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
         this.temperature=temperature;
     }
 
-    public void startCooking(){
+    public void start(){
         if(this.on && (temperature>0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer!=null){
             Thread t = new Thread(timer);
             running=true;
@@ -38,52 +38,52 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
         }
     }
 
-    public int checkTimer(){
-        if (timer!=null) {
+    public int checkTimer() {
+        if (timer != null) {
             return timer;
         }
         return 0;
         //i don't understand the otherwise part on the paper
     }
 
-    public void interruptProgram(){
-        if(running){
-            running=false;
-            timer=null;
+    public void stop() {
+        if(running) {
+            running = false;
+            timer = null;
         }
     }
 
-    private void addProgram(ArrayList<String> list){
+    private void addProgram(ArrayList<String> list) {
         list.add("ventilated");
         list.add("grill");
     }
 
     public boolean setUpProgram(String program){
         if (programs.contains(program)){
-            actualProgram=program;
+            actualProgram = program;
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
 
     //add_by_me
     //maybe we can use an interface
-    public String display(){
+    public String display() {
 
-        String output="";
+        String output = "";
         output+= (running) ? "oven is running ": "oven isn't running ";
-        output+="the temperature is "+temperature;
-        output+=" the program is "+actualProgram;
-        output+=" timer:"+timer;
+        output += "the temperature is " + temperature;
+        output +="  the program is " + actualProgram;
+        output += " timer:" + timer;
 
         return output;
     }
 
     //--------------
     public String getProgram(){
-        String s="";
+        String s = "";
         for (String r : programs){
             s += r + "\n";
         }
