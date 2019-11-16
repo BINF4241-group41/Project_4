@@ -1,4 +1,4 @@
-
+package Microwave;
 
 public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, General.ITimerCheck {
 
@@ -18,7 +18,7 @@ public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, G
     }
 
     public void setTimer(int durationInSeconds) {
-        this.timer=new General.Timer(time*1000);
+        this.timer=new General.Timer(durationInSeconds*1000);
     }
     public void start(){
         if(on && (temperature>0) && timer!=null ){

@@ -1,3 +1,4 @@
+package Dishwasher;
 
 import java.util.Scanner;
 

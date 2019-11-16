@@ -1,5 +1,7 @@
 package Dishwasher;
 
+import General.Program;
+
 import java.util.ArrayList;
 
 public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable {
@@ -8,21 +10,21 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     private ArrayList<Program> programs;
     private boolean running;
     private General.Timer timer=null;
-    private Program runnigProgram=null;
+    private Program runningProgram=null;
 
     public Dishwasher(){
-        this.runningProgram=new Program("noProgram",0);
-        this.programs= new ArrayList<Program>();
+        this.runningProgram = new Program("noProgram",0);
+        this.programs = new ArrayList<Program>();
         addProgram(programs);
-        this.running=false;
-        on=false;
+        this.running = false;
+        on = false;
 
     }
     public String getProgram(){
         return runningProgram.getName();
     }
 
-    private void setTimer(float time){
+    private void setTimer(int time){
         this.timer= new General.Timer(time*1000);
     }
     public int checkTimer() {
@@ -49,6 +51,11 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     public void switchOn() {
         this.on = true;
     }
+
+    public void switchOff() {
+        this.on = false;
+    }
+
     public void stopWash(){
         if(running){
             running=false;
@@ -56,9 +63,6 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
         }
     }
 
-    public void switchOff() {
-        this.on = false;
-    }
     private void addProgram(ArrayList<Program> list){
         list.add(new Program("mixed",400));
         list.add(new Program("pans",300));

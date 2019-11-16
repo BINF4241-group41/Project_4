@@ -1,18 +1,25 @@
-package Dishwasher;
+package General;
+
 
 public class Program{
-    private String name;
-    private float min;
 
-    public Program(String name, float min){
-        this.name=name;
-        this.min=min;
+    private String name;
+    private int duration;
+
+    public Program(String name, int duration){
+        this.name = name;
+        this.duration = duration;
     }
 
     public String getName(){
         return name;
     }
-    public float getMin(){
-        return min;
+
+    public int getDuration(){
+        return duration;
+    }
+
+    public static Program getNoProgram() {
+        return new Program("NoProgram", 0);
     }
 }

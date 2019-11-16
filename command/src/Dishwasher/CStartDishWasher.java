@@ -1,4 +1,3 @@
-
 package Dishwasher;
 
 public class CStartDishWasher implements General.ICommand {
