@@ -1,6 +1,8 @@
 package Microwave;
 
 
+import java.util.Scanner;
+
 public class CSetTemperatureMicrowave implements General.ICommand {
 
     private Microwave microwave;

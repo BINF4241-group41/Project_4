@@ -6,20 +6,24 @@ public class Timer implements Runnable{
     private int time;
 
     public Timer(int time){
-        this.time=time;
-        this.running=false;
+        this.time = time;
+        this.running = false;
     }
 
     public boolean isRunning(){
         return running;
     }
 
+    public int getTime() {
+        return time;
+    }
+
     @Override
     public void run() {
         try{
-            running=true;
+            running = true;
             Thread.sleep(time);
-            running=false;
+            running = false;
             
         } catch (InterruptedException e) {
             e.printStackTrace();

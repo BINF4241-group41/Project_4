@@ -30,10 +30,10 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
         this.temperature=temperature;
     }
 
-    public void start(){
-        if(this.on && (temperature>0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer!=null){
+    public void start() {
+        if (this.on && (temperature>0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer!=null){
             Thread t = new Thread(timer);
-            running=true;
+            running = true;
             t.start();
         }
     }
