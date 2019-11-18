@@ -6,86 +6,117 @@ import Microwave.*;
 import Oven.*;
 import WashingMachine.*;
 
-import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Scanner;
 
 
 public class Smartphone {
 
-    private CleaningRobot cleaningRobot;
-    private Dishwasher dishwasher;
-    private Microwave microwave;
-    private Oven oven;
-    private WashingMachine washingMachine;
+    private Device activeDevice = null;
 
-    private ICommand[] cleaningRobotCommands;
-    private ICommand[] dishwasherCommands;
-    private ICommand[] microwaveCommands;
-    private ICommand[] ovenCommands;
-    private ICommand[] washingMachineCommands;
+    private Hashtable<String, Device> devices = new Hashtable<>();
+    private Hashtable<String, ICommand[]> commands = new Hashtable<>();
 
 
     public Smartphone() {
 
-        this.cleaningRobot = new CleaningRobot("CleaningRobot");
-        this.dishwasher = new Dishwasher("Dishwasher");
-        this.microwave = new Microwave("Microwave");
-        this.oven = new Oven("Oven");
-        this.washingMachine = new WashingMachine("WashingMachine");
+        CleaningRobot cleaningRobot = new CleaningRobot("CleaningRobot");
+        Dishwasher dishwasher = new Dishwasher("Dishwasher");
+        Microwave microwave = new Microwave("Microwave");
+        Oven oven = new Oven("Oven");
+        WashingMachine washingMachine = new WashingMachine("WashingMachine");
 
-        this.cleaningRobotCommands = new ICommand[] {
-                new CStart(this.cleaningRobot),
-                new CStop(this.cleaningRobot),
-                new CSetTimer(this.cleaningRobot),
-                new CCheckBatteryStatusCR(this.cleaningRobot),
-                new CCheckCleaningPercentageCR(this.cleaningRobot),
-                new CCompleteCleaningCR(this.cleaningRobot)
-        };
+        this.devices.put(cleaningRobot.getName(), cleaningRobot);
+        this.devices.put(dishwasher.getName(), dishwasher);
+        this.devices.put(microwave.getName(), microwave);
+        this.devices.put(oven.getName(), oven);
+        this.devices.put(washingMachine.getName(), washingMachine);
 
-        this.dishwasherCommands = new ICommand[] {
-                new CSwitchOn(this.dishwasher),
-                new CSwitchOff(this.dishwasher),
-                new CStart(this.dishwasher),
-                new CStop(this.dishwasher),
-                new CCheckTimer(this.dishwasher),
-                new CSelectProgram(this.dishwasher)
-        };
+        this.commands.put(cleaningRobot.getName(), new ICommand[] {
+                new CStart(cleaningRobot),
+                new CStop(cleaningRobot),
+                new CSetTimer(cleaningRobot),
+                new CCheckBatteryStatusCR(cleaningRobot),
+                new CCheckCleaningPercentageCR(cleaningRobot),
+                new CCompleteCleaningCR(cleaningRobot)
+        });
 
-        this.microwaveCommands = new ICommand[] {
-                new CSwitchOn(this.microwave),
-                new CSwitchOff(this.microwave),
-                new CStart(this.microwave),
-                new CStop(this.microwave),
-                new CSetTimer(this.microwave),
-                new CSetTemperatureMicrowave(this.microwave)
-        };
+        this.commands.put(dishwasher.getName(), new ICommand[] {
+                new CSwitchOn(dishwasher),
+                new CSwitchOff(dishwasher),
+                new CStart(dishwasher),
+                new CStop(dishwasher),
+                new CCheckTimer(dishwasher),
+                new CSelectProgram(dishwasher)
+        });
 
-        this.ovenCommands = new ICommand[] {
-                new CSwitchOn(this.oven),
-                new CSwitchOff(this.oven),
-                new CStart(this.oven),
-                new CStop(this.oven),
-                new CSetTimer(this.oven),
-                new CSetTemperatureOven(this.oven),
-                new CSetUpProgramOven(this.oven);
-        };
+        this.commands.put(microwave.getName(), new ICommand[] {
+                new CSwitchOn(microwave),
+                new CSwitchOff(microwave),
+                new CStart(microwave),
+                new CStop(microwave),
+                new CSetTimer(microwave),
+                new CSetTemperatureMicrowave(microwave)
+        });
 
-        this.washingMachineCommands = new ICommand[] {
-                new CSwitchOn(this.washingMachine),
-                new CSwitchOff(this.washingMachine),
-                new CStart(this.washingMachine),
-                new CStop(this.washingMachine),
-                new CSelectProgram(this.washingMachine),
-                new CSetTemperature(this.washingMachine)
-        };
+        this.commands.put(oven.getName(), new ICommand[] {
+                new CSwitchOn(oven),
+                new CSwitchOff(oven),
+                new CStart(oven),
+                new CStop(oven),
+                new CSetTimer(oven),
+                new CSetTemperatureOven(oven),
+                new CSetUpProgramOven(.oven);
+        });
+
+        this.commands.put(washingMachine.getName(), new ICommand[] {
+                new CSwitchOn(washingMachine),
+                new CSwitchOff(washingMachine),
+                new CStart(washingMachine),
+                new CStop(washingMachine),
+                new CSelectProgram(washingMachine),
+                new CSetTemperature(washingMachine)
+        });
     }
-    
-    public String[] getDevices() {
-        return new String[] {
-            this.cleaningRobot.getName(),
-                this.dishwasher.getName(),
-                this.microwave.getName(),
-                this.oven.getName(),
-                this.washingMachine.getName()
-        };
+
+
+    public void startCLI() {
+
+        String input = "";
+        Scanner inputScanner = new Scanner(System.in);
+
+        while (true) {
+
+            String devicesString = "Available devices (choose the device by typing in its name): \n";
+
+            Enumeration deviceNames = this.devices.keys();
+            while (deviceNames.hasMoreElements()) {
+                devicesString += " - " + deviceNames.nextElement() + "\n";
+            }
+
+            System.out.println(devicesString);
+            System.out.println("Type exit to exit the program.");
+
+            input = inputScanner.next();
+
+            if (!input.equals("exit")) {
+                return;
+            }
+
+            deviceNames = this.devices.keys();
+            while (deviceNames.hasMoreElements()) {
+                String deviceName = deviceNames.nextElement().toString();
+                if (deviceName.equals(input)) {
+                    this.activeDevice = this.devices.get(deviceName);
+                }
+                else {
+                    System.out.println("Device not found.");
+                    continue;;
+                }
+            }
+
+            // select available command
+        }
     }
 }
