@@ -13,8 +13,6 @@ import java.util.Scanner;
 
 public class Smartphone {
 
-    private Device activeDevice = null;
-
     private Hashtable<String, Device> devices = new Hashtable<>();
     private Hashtable<String, ICommand[]> commands = new Hashtable<>();
 
@@ -67,7 +65,7 @@ public class Smartphone {
                 new CStop(oven),
                 new CSetTimer(oven),
                 new CSetTemperatureOven(oven),
-                new CSetUpProgramOven(.oven);
+                new CSetUpProgramOven(oven);
         });
 
         this.commands.put(washingMachine.getName(), new ICommand[] {
@@ -108,15 +106,57 @@ public class Smartphone {
             while (deviceNames.hasMoreElements()) {
                 String deviceName = deviceNames.nextElement().toString();
                 if (deviceName.equals(input)) {
-                    this.activeDevice = this.devices.get(deviceName);
+                    deviceCLI(deviceName);
                 }
                 else {
                     System.out.println("Device not found.");
-                    continue;;
+                }
+            }
+        }
+    }
+
+
+    private void deviceCLI(String deviceKey) {
+
+        String input = "";
+        Scanner inputScanner = new Scanner(System.in);
+
+        if (!this.devices.containsKey(deviceKey) || !this.commands.containsKey(deviceKey)) {
+            return;
+        }
+
+        Device currentDevice = devices.get(deviceKey);
+        ICommand[] currentCommands = this.commands.get(deviceKey);
+
+
+        while (true) {
+
+            String commandsString = "Functions available for device " + currentDevice.getName() + ":\n";
+
+            for (ICommand command : currentCommands) {
+                if (command.isAvailable()) {
+                    commandsString += " - " + command.getName() + "\n";
                 }
             }
 
-            // select available command
+            System.out.println(commandsString);
+            System.out.println("Type exit to exit the program.");
+
+            input = inputScanner.next();
+
+            if (!input.equals("exit")) {
+                return;
+            }
+
+            for (ICommand nextCommand : currentCommands) {
+                if (nextCommand.getName().equals(input)) {
+                    nextCommand.execute();
+                    System.out.println("Executed function " + nextCommand.getName());
+                    continue;
+                }
+            }
+
+            System.out.println("Device not found.");
         }
     }
 }
