@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class WashingMachine implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable, ITemperatureSettable {
+public class WashingMachine extends Device implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable, ITemperatureSettable {
 
     private boolean on = false;
     private ArrayList<Program> programs;
@@ -15,7 +15,8 @@ public class WashingMachine implements General.IOnOffSwitchable, General.IStartS
     private int degrees; // enum?
     private boolean running;
 
-    public WashingMachine() {
+    public WashingMachine(String deviceName) {
+        this.name = deviceName;
         this.on = false;
         currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();

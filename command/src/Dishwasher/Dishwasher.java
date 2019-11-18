@@ -1,10 +1,12 @@
 package Dishwasher;
 
+
 import General.Program;
 
 import java.util.ArrayList;
 
-public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable, General.IProgramSelectable, General.IStartStoppable {
+
+public class Dishwasher extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerCheck, General.IProgramSelectable {
 
     private boolean on;
     private ArrayList<Program> programs;
@@ -12,7 +14,8 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     private General.Timer timer = null;
     private Program currentProgram;
 
-    public Dishwasher(){
+    public Dishwasher(String deviceName) {
+        this.name = deviceName;
         this.currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
         addProgram(programs);
@@ -30,7 +33,7 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
 
     public int checkTimer() {
         if (timer != null) {
-           return timer;
+           return timer.getTime();
         }
         return 0;
     }
@@ -52,7 +55,7 @@ public class Dishwasher implements General.ITimerCheck, General.IOnOffSwitchable
     }
 
     public void stop() {
-        if(running) {
+        if (running) {
             running = false;
             timer = null;
         }

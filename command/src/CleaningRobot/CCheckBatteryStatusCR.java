@@ -1,11 +1,11 @@
 package CleaningRobot;
 
 
-public class CCheckBatteryStatus implements General.ICommand {
+public class CCheckBatteryStatusCR implements General.ICommand {
 
     CleaningRobot cleaningRobot;
 
-    public CCheckBatteryStatus(CleaningRobot cr) {
+    public CCheckBatteryStatusCR(CleaningRobot cr) {
         this.cleaningRobot = cr;
     }
 

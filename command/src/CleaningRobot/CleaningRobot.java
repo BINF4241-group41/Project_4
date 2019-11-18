@@ -1,7 +1,7 @@
 package CleaningRobot;
 
 
-public class CleaningRobot implements General.ITimerSet, General.IStartStoppable {
+public class CleaningRobot extends General.Device implements General.ITimerSet, General.IStartStoppable {
 
     private final int MAX_BATTERY_CAPACITY = 2000;
     private float batteryCharge = MAX_BATTERY_CAPACITY;
@@ -61,6 +61,12 @@ public class CleaningRobot implements General.ITimerSet, General.IStartStoppable
             e.printStackTrace();
         }
     };
+
+
+    public CleaningRobot(String deviceName) {
+        this.name = deviceName;
+    }
+
 
     public void setTimer(int durationInSeconds) {
         this.timer = new General.Timer(durationInSeconds*1000);

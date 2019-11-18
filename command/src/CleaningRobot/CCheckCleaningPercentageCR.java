@@ -1,11 +1,11 @@
 package CleaningRobot;
 
 
-public class CCheckCleaningPercentage implements General.ICommand {
+public class CCheckCleaningPercentageCR implements General.ICommand {
 
     private CleaningRobot cleaningRobot;
 
-    public CCheckCleaningPercentage(CleaningRobot cr) {
+    public CCheckCleaningPercentageCR(CleaningRobot cr) {
         this.cleaningRobot = cr;
     }
 

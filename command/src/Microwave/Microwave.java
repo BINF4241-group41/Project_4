@@ -1,13 +1,15 @@
 package Microwave;
 
-public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, General.ITimerCheck, General.IStartStoppable {
+
+public class Microwave extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerSet, General.ITimerCheck {
 
     private boolean on;
     private float temperature;
     private General.Timer timer = null;
     private boolean running;
 
-    public Microwave(){
+    public Microwave(String deviceName) {
+        this.name = deviceName;
         this.on = false;
         this.temperature = 0;
         this.running = false;
@@ -21,23 +23,23 @@ public class Microwave implements General.IOnOffSwitchable, General.ITimerSet, G
         this.timer = new General.Timer(durationInSeconds*1000);
     }
 
-    public void start(){
-        if(on && temperature > 0 && timer != null ){
+    public void start() {
+        if (on && temperature > 0 && timer != null ){
             Thread t = new Thread(timer);
-            running=true;
+            running = true;
             t.start();
         }
     }
 
     public int checkTimer() {
         if (running && timer != null) {
-            return timer;
+            return timer.getTime();
         }
         return 0;
     }
 
     public void stop() {
-        if(running) {
+        if (running) {
             running = false;
             timer = null;
         }

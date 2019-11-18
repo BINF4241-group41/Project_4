@@ -1,9 +1,10 @@
 package Oven;
 
+
 import java.util.ArrayList;
 
 
-public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, General.ITimerSet, General.IStartStoppable {
+public class Oven extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerCheck, General.ITimerSet {
 
     private boolean on = false;
 
@@ -11,27 +12,29 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
     private float temperature;
     private ArrayList<String> programs;
     private String actualProgram;
-    private General.Timer timer=null;
-    private static final String DEFAULT_PROGRAM="noProgram";
+    private General.Timer timer = null;
+    private static final String DEFAULT_PROGRAM = "noProgram";
 
-    public Oven(){
+    public Oven(String deviceName) {
+        this.name = deviceName;
         this.actualProgram = DEFAULT_PROGRAM;
-        this.temperature=0;
-        this.programs=new ArrayList<String>();
+        this.temperature = 0;
+        this.programs = new ArrayList<String>();
         addProgram(programs);
-        this.running=false;    
+        this.running = false;
     }
+
     //maybe you don't need cause we have the common timer class
     public void setTimer(int time){
-        this.timer=new General.Timer(time*1000);
+        this.timer = new General.Timer(time*1000);
     }
 
     public void setTemperature(float temperature){
-        this.temperature=temperature;
+        this.temperature = temperature;
     }
 
     public void start() {
-        if (this.on && (temperature>0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer!=null){
+        if (this.on && (temperature > 0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer != null){
             Thread t = new Thread(timer);
             running = true;
             t.start();
@@ -40,14 +43,14 @@ public class Oven implements General.IOnOffSwitchable, General.ITimerCheck, Gene
 
     public int checkTimer() {
         if (timer != null) {
-            return timer;
+            return timer.getTime();
         }
         return 0;
         //i don't understand the otherwise part on the paper
     }
 
     public void stop() {
-        if(running) {
+        if (running) {
             running = false;
             timer = null;
         }

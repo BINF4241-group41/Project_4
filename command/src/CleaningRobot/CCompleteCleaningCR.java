@@ -1,11 +1,11 @@
 package CleaningRobot;
 
 
-public class CCompleteCleaning implements General.ICommand {
+public class CCompleteCleaningCR implements General.ICommand {
 
     private CleaningRobot cleaningRobot;
 
-    public CCompleteCleaning(CleaningRobot cr) {
+    public CCompleteCleaningCR(CleaningRobot cr) {
         this.cleaningRobot = cr;
     }
 
