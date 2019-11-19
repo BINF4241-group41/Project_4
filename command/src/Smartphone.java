@@ -55,7 +55,7 @@ public class Smartphone {
                 new CStart(microwave),
                 new CStop(microwave),
                 new CSetTimer(microwave),
-                new CSetTemperatureMicrowave(microwave)
+                new CSetTemperature(microwave)
         });
 
         this.commands.put(oven.getName(), new ICommand[] {
@@ -64,8 +64,8 @@ public class Smartphone {
                 new CStart(oven),
                 new CStop(oven),
                 new CSetTimer(oven),
-                new CSetTemperatureOven(oven),
-                new CSetUpProgramOven(oven)
+                new CSetTemperature(oven),
+                new CSelectProgram(oven)
         });
 
         this.commands.put(washingMachine.getName(), new ICommand[] {

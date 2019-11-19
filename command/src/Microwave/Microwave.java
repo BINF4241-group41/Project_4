@@ -1,10 +1,10 @@
 package Microwave;
 
 
-public class Microwave extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerSet, General.ITimerCheck {
+public class Microwave extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerSet, General.ITimerCheck, General.ITemperatureSettable {
 
     private boolean on;
-    private float temperature;
+    private int temperature;
     private General.Timer timer = null;
     private boolean running;
 
@@ -15,7 +15,7 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
         this.running = false;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
@@ -24,7 +24,7 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
     }
 
     public void start() {
-        if (on && temperature > 0 && timer != null ){
+        if (on && temperature > 0 && timer != null ) {
             Thread t = new Thread(timer);
             running = true;
             t.start();

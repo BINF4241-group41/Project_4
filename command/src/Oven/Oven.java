@@ -6,7 +6,7 @@ import General.Program;
 import java.util.ArrayList;
 
 
-public class Oven extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerCheck, General.ITimerSet {
+public class Oven extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerCheck, General.ITimerSet, General.IProgramSelectable, General.ITemperatureSettable {
 
     private boolean on = false;
 
@@ -14,7 +14,7 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
         return (this.timer != null && this.timer.isRunning());
     };
 
-    private float temperature = 0;
+    private int temperature = 0;
     private ArrayList<Program> programs = new ArrayList<Program>();
     private Program currentProgram = Program.getNoProgram();
     private General.Timer timer = null;
@@ -30,7 +30,7 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
         this.timer = new General.Timer(time*1000);
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
@@ -63,39 +63,46 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
         list.add(new Program("Grill"));
     }
 
-    public boolean setUpProgram(String program) {
-        if (programs.contains(program)){
-            actualProgram = program;
-            return true;
-        }
-        else {
-            return false;
+    public void setProgram(Program program) {
+        if (program != null) {
+            this.currentProgram = program;
         }
     }
 
-    //add_by_me
-    //maybe we can use an interface
+
+    /*
     public String display() {
 
+        String output;
+
         if (!this.on) {
-            return "Oven isn't running.";
+            output = "Oven isn't on.";
         }
 
-        String output = "";
-        output += "The temperature is " + temperature + ", ";
-        output += "the program is " + currentProgram.getName() + ", ";
-        output += "total timer duration: " + timer.getTime() + ".";
+        else if (isRunning()) {
+            output = "Currently running the following program:\n";
+            output += "The program is " + currentProgram.getName() + ", ";
+            output += "temperature: " + temperature + ", ";
+            output += "total timer duration: " + timer.getTime() + ".";
+        }
+
+        else if (Finished running) {
+            output += "The temperature is " + temperature + ", ";
+            output += "the program is " + currentProgram.getName() + ", ";
+            output += "total timer duration: " + timer.getTime() + ".";
+        }
+
+        else {
+            // reset
+        }
 
         return output;
     }
+     */
 
 
     public ArrayList<Program> getPrograms() {
         return new ArrayList<Program>(this.programs);
-    }
-
-    public Program getCurrentProgram(){
-        return currentProgram;
     }
 
     public void switchOn() {

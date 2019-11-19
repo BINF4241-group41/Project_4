@@ -1,6 +1,8 @@
 package General;
 
 
+import java.util.Scanner;
+
 public class CSetTemperature implements ICommand {
 
     ITemperatureSettable temperatureSettable;
@@ -14,6 +16,10 @@ public class CSetTemperature implements ICommand {
     }
 
     public void execute() {
-        this.temperatureSettable.setTemperature();
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter the temperature for the microwave: ");
+        int temp = s.nextInt();
+        this.temperatureSettable.setTemperature(temp);
+        s.close();
     }
 }
