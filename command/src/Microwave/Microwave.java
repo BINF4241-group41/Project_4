@@ -15,7 +15,7 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
         this.running = false;
     }
 
-    public void setTemperature(float temperature){
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 
@@ -44,11 +44,16 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
             timer = null;
         }
     }
+
     public void switchOn() {
         this.on = true;
     }
 
     public void switchOff() {
         this.on = false;
+    }
+
+    public boolean isOn() {
+        return on;
     }
 }

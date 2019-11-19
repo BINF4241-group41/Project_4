@@ -11,6 +11,10 @@ public class CSetTimer implements ICommand {
         this.canSetTimerObject = canSetTimerObject;
     }
 
+    public String getName() {
+        return "SetTimer";
+    }
+
     public void execute() {
         Scanner s = new Scanner(System.in);
         System.out.println("Set the timer interval:");

@@ -8,7 +8,11 @@ public class CCheckTimer implements ICommand {
         this.timerCheckableObject = timerCheckableObject;
     }
 
+    public String getName() {
+        return "CheckTimer";
+    }
+
     public void execute() {
-        System.out.println("General.Timer: " + this.timerCheckableObject.checkTimer());
+        System.out.println("Total timer duration: " + this.timerCheckableObject.checkTimer());
     }
 }

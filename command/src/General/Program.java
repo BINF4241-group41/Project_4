@@ -1,25 +1,43 @@
 package General;
 
 
-public class Program{
+public class Program {
 
-    private final String name;
-    private final int duration;
+    private String name;
+    private int duration = 0;
+    private int temperature = 0;
 
-    public Program(String name, int duration){
+
+    // constructor for no set duration
+    public Program(String name) {
+        this.name = name;
+    }
+
+    public Program(String name, int duration) {
         this.name = name;
         this.duration = duration;
     }
 
-    public String getName(){
+    public Program(String name, int duration, int temperature) {
+        this.name = name;
+        this.duration = duration;
+        this.temperature = temperature;
+    }
+
+
+    public String getName() {
         return name;
     }
 
-    public int getDuration(){
+    public int getDuration() {
         return duration;
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
     public static Program getNoProgram() {
-        return new Program("NoProgram", 0);
+        return new Program("NoProgram");
     }
 }

@@ -18,16 +18,16 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
         this.name = deviceName;
         this.currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
-        addProgram(programs);
+        addPrograms(programs);
         this.running = false;
         on = false;
 
     }
-    public String getProgram(){
+    public String getProgram() {
         return currentProgram.getName();
     }
 
-    private void setTimer(int time){
+    private void setTimer(int time) {
         this.timer= new General.Timer(time*1000);
     }
 
@@ -69,18 +69,21 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
         this.on = false;
     }
 
-    private void addProgram(ArrayList<Program> list){
-        list.add(new Program("mixed",400));
-        list.add(new Program("pans",300));
-        list.add(new Program("glasses",200));
-        list.add(new Program("plates",100));
+    public boolean isOn() {
+        return this.on;
+    }
+
+    private void addPrograms(ArrayList<Program> list) {
+        list.add(new Program("Mixed",400));
+        list.add(new Program("Pans",300));
+        list.add(new Program("Glasses",200));
+        list.add(new Program("Plates",100));
     }
 
     public ArrayList<Program> getPrograms() {
         return new ArrayList<Program>(this.programs);
     }
 
-    @Override
     public void setProgram(Program program) {
         if (program != null) {
             this.currentProgram = program;

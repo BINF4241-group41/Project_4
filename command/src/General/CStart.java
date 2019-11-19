@@ -9,6 +9,10 @@ public class CStart implements ICommand {
         this.startStoppable = startStoppable;
     }
 
+    public String getName() {
+        return "Start";
+    }
+
     public void execute() {
         this.startStoppable.start();
     }

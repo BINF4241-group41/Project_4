@@ -1,6 +1,8 @@
 package Oven;
 
 
+import General.Program;
+
 import java.util.ArrayList;
 
 
@@ -8,36 +10,34 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     private boolean on = false;
 
-    private boolean running;
-    private float temperature;
-    private ArrayList<String> programs;
-    private String actualProgram;
+    private boolean isRunning() {
+        return (this.timer != null && this.timer.isRunning());
+    };
+
+    private float temperature = 0;
+    private ArrayList<Program> programs = new ArrayList<Program>();
+    private Program currentProgram = Program.getNoProgram();
     private General.Timer timer = null;
-    private static final String DEFAULT_PROGRAM = "noProgram";
+    private Thread myThread = null; // thread for timer
+
 
     public Oven(String deviceName) {
         this.name = deviceName;
-        this.actualProgram = DEFAULT_PROGRAM;
-        this.temperature = 0;
-        this.programs = new ArrayList<String>();
-        addProgram(programs);
-        this.running = false;
+        addPrograms(programs);
     }
 
-    //maybe you don't need cause we have the common timer class
-    public void setTimer(int time){
+    public void setTimer(int time) {
         this.timer = new General.Timer(time*1000);
     }
 
-    public void setTemperature(float temperature){
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 
     public void start() {
-        if (this.on && (temperature > 0) && (!actualProgram.equals(DEFAULT_PROGRAM)) && timer != null){
-            Thread t = new Thread(timer);
-            running = true;
-            t.start();
+        if (this.on && (temperature > 0) && (currentProgram != Program.getNoProgram()) && timer != null) {
+            this.myThread = new Thread(timer);
+            this.myThread.start();
         }
     }
 
@@ -46,22 +46,24 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
             return timer.getTime();
         }
         return 0;
-        //i don't understand the otherwise part on the paper
     }
 
     public void stop() {
-        if (running) {
-            running = false;
-            timer = null;
+        if (this.myThread != null && this.timer.isRunning()) {
+            this.myThread = null;
         }
+
+        this.timer = null;
+        this.temperature = 0;
+        this.currentProgram = Program.getNoProgram();
     }
 
-    private void addProgram(ArrayList<String> list) {
-        list.add("ventilated");
-        list.add("grill");
+    private void addPrograms(ArrayList<Program> list) {
+        list.add(new Program("Ventilated"));
+        list.add(new Program("Grill"));
     }
 
-    public boolean setUpProgram(String program){
+    public boolean setUpProgram(String program) {
         if (programs.contains(program)){
             actualProgram = program;
             return true;
@@ -75,26 +77,25 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
     //maybe we can use an interface
     public String display() {
 
+        if (!this.on) {
+            return "Oven isn't running.";
+        }
+
         String output = "";
-        output+= (running) ? "oven is running ": "oven isn't running ";
-        output += "the temperature is " + temperature;
-        output +="  the program is " + actualProgram;
-        output += " timer:" + timer;
+        output += "The temperature is " + temperature + ", ";
+        output += "the program is " + currentProgram.getName() + ", ";
+        output += "total timer duration: " + timer.getTime() + ".";
 
         return output;
     }
 
-    //--------------
-    public String getProgram(){
-        String s = "";
-        for (String r : programs){
-            s += r + "\n";
-        }
-        return s;
+
+    public ArrayList<Program> getPrograms() {
+        return new ArrayList<Program>(this.programs);
     }
 
-    public String currentProgram(){
-        return actualProgram;
+    public Program getCurrentProgram(){
+        return currentProgram;
     }
 
     public void switchOn() {
@@ -104,5 +105,8 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
     public void switchOff() {
         this.on = false;
     }
-    
-}   
+
+    public boolean isOn() {
+        return on;
+    }
+}

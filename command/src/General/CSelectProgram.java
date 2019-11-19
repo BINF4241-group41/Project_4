@@ -11,6 +11,10 @@ public class CSelectProgram implements General.ICommand {
         this.programSelectable = programSelectable;
     }
 
+    public String getName() {
+        return "SelectProgram";
+    }
+
     public void execute() {
 
         System.out.println("Please enter the name of the program you want.\n");

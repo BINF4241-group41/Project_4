@@ -9,6 +9,10 @@ public class CCheckCleaningPercentageCR implements General.ICommand {
         this.cleaningRobot = cr;
     }
 
+    public String getName() {
+        return "CheckCleaningPercentageCR";
+    }
+
     public void execute() {
         float progress = this.cleaningRobot.getCleaningProgress();
         System.out.println("Cleaning progress: " + progress*100 + "%");

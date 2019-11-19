@@ -11,6 +11,10 @@ public class CSetTemperatureOven implements General.ICommand {
         this.oven = oven;
     }
 
+    public String getName() {
+        return "SetTemperatureOven";
+    }
+
     public void execute() {
         Scanner s = new Scanner(System.in);
         System.out.println("Enter the temperature for the oven:");

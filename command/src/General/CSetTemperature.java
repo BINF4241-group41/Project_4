@@ -9,6 +9,10 @@ public class CSetTemperature implements ICommand {
         this.temperatureSettable = temperatureSettable;
     }
 
+    public String getName() {
+        return "SetTemperature";
+    }
+
     public void execute() {
         this.temperatureSettable.setTemperature();
     }

@@ -12,6 +12,10 @@ public class CSetTemperatureMicrowave implements General.ICommand {
         this.microwave = microwave;
     }
 
+    public String getName() {
+        return "SetTemperatureMicrowave";
+    }
+
     public void execute(){
         Scanner s = new Scanner(System.in);
         System.out.println("Enter the temperature for the microwave: ");

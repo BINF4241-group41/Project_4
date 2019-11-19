@@ -65,7 +65,7 @@ public class Smartphone {
                 new CStop(oven),
                 new CSetTimer(oven),
                 new CSetTemperatureOven(oven),
-                new CSetUpProgramOven(oven);
+                new CSetUpProgramOven(oven)
         });
 
         this.commands.put(washingMachine.getName(), new ICommand[] {
@@ -98,7 +98,7 @@ public class Smartphone {
 
             input = inputScanner.next();
 
-            if (!input.equals("exit")) {
+            if (input.equals("exit")) {
                 return;
             }
 
@@ -107,11 +107,10 @@ public class Smartphone {
                 String deviceName = deviceNames.nextElement().toString();
                 if (deviceName.equals(input)) {
                     deviceCLI(deviceName);
-                }
-                else {
-                    System.out.println("Device not found.");
+                    continue;
                 }
             }
+            System.out.println("Device not found.");
         }
     }
 
@@ -128,7 +127,7 @@ public class Smartphone {
         Device currentDevice = devices.get(deviceKey);
         ICommand[] currentCommands = this.commands.get(deviceKey);
 
-
+        /*
         while (true) {
 
             String commandsString = "Functions available for device " + currentDevice.getName() + ":\n";
@@ -144,7 +143,7 @@ public class Smartphone {
 
             input = inputScanner.next();
 
-            if (!input.equals("exit")) {
+            if (input.equals("exit")) {
                 return;
             }
 
@@ -157,6 +156,6 @@ public class Smartphone {
             }
 
             System.out.println("Device not found.");
-        }
+        }*/
     }
 }

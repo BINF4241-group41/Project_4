@@ -9,6 +9,10 @@ public class CCompleteCleaningCR implements General.ICommand {
         this.cleaningRobot = cr;
     }
 
+    public String getName() {
+        return "CompleteCleaningCR";
+    }
+
     public void execute() {
         // if not already cleaning, start default program
         this.cleaningRobot.completeCleaning();

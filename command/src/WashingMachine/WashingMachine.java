@@ -20,7 +20,7 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
         this.on = false;
         currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
-        addProgram(programs);
+        addPrograms(programs);
         this.running = false;
         
     }
@@ -31,6 +31,10 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
 
     public void switchOff() {
         this.on = false;
+    }
+
+    public boolean isOn() {
+        return on;
     }
 
     // move to separate thread
@@ -80,7 +84,7 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
         }
     }
 
-    private void addProgram(ArrayList<Program> list){
+    private void addPrograms(ArrayList<Program> list){
         list.add(new Program("Double Rinse", 240));
         list.add(new Program("Intense", 120));
         list.add(new Program("Quick", 60));
