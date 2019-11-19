@@ -74,7 +74,7 @@ public class Smartphone {
                 new CStart(washingMachine),
                 new CStop(washingMachine),
                 new CSelectProgram(washingMachine),
-                new CSetTemperature(washingMachine)
+                new CSelectTemperatureWM(washingMachine)
         });
     }
 
@@ -127,15 +127,13 @@ public class Smartphone {
         Device currentDevice = devices.get(deviceKey);
         ICommand[] currentCommands = this.commands.get(deviceKey);
 
-        /*
+
         while (true) {
 
             String commandsString = "Functions available for device " + currentDevice.getName() + ":\n";
 
             for (ICommand command : currentCommands) {
-                if (command.isAvailable()) {
-                    commandsString += " - " + command.getName() + "\n";
-                }
+                commandsString += " - " + command.getName() + "\n";
             }
 
             System.out.println(commandsString);
@@ -156,6 +154,6 @@ public class Smartphone {
             }
 
             System.out.println("Device not found.");
-        }*/
+        }
     }
 }

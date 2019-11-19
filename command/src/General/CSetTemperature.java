@@ -17,9 +17,11 @@ public class CSetTemperature implements ICommand {
 
     public void execute() {
         Scanner s = new Scanner(System.in);
-        System.out.println("Enter the temperature for the microwave: ");
+        System.out.println("Enter the temperature (must be non-negative): ");
         int temp = s.nextInt();
-        this.temperatureSettable.setTemperature(temp);
+        if (temp >= 0) {
+            this.temperatureSettable.setTemperature(temp);
+        }
         s.close();
     }
 }

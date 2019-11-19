@@ -7,22 +7,28 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class WashingMachine extends Device implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable, ITemperatureSettable {
+public class WashingMachine extends Device implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable {
 
-    private boolean on = false;
+    private boolean on;
     private ArrayList<Program> programs;
     private Program currentProgram;
-    private int degrees; // enum?
-    private boolean running;
+    private int temperature; // enum?
+    private Timer timer;
+    private Thread timerThread;
+
 
     public WashingMachine(String deviceName) {
-        this.name = deviceName;
         this.on = false;
-        currentProgram = Program.getNoProgram();
+        this.temperature = 0;
+        this.name = deviceName;
+        this.currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
-        addPrograms(programs);
-        this.running = false;
-        
+        addPrograms(this.programs);
+    }
+
+
+    public boolean isRunning() {
+        return (timer != null && timer.isRunning());
     }
 
     public void switchOn() {
@@ -33,58 +39,35 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
         this.on = false;
     }
 
-    public boolean isOn() {
-        return on;
-    }
-
-    // move to separate thread
     public void start() {
-        if (!running) {
-            running = true;
-            Timer timer = new Timer(this.currentProgram.getDuration());
-            timer.run();
-            running = false;
+        if (!isRunning() && this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
+            this.timer = new Timer(this.currentProgram.getDuration());
+            this.timerThread = new Thread(this.timer);
+            this.timerThread.start();
         }
     }
 
     public void stop() {
-        if (running) {
-            System.out.println("A program is running. Can't turn off.");
-        }
-        else {
+        if (!isRunning()) {
+            this.timerThread = null;
+            this.timer = null;
             this.currentProgram = Program.getNoProgram();
-            this.degrees = 0;
+            this.temperature = 0;
         }
     }
 
-    public void setTemperature() {
-        System.out.println("Please select the degrees (type abort to abort):\n40 C\n60 C\n90 C");
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
-            if (scanner.hasNextInt()) {
-                int nextInt = scanner.nextInt();
-                if (nextInt == 40 || nextInt == 60 || nextInt == 90) {
-                    this.degrees = nextInt;
-                    break;
-                }
-                else {
-                    System.out.println("Please select one of the provided values.");
-                }
-            }
-            else if (scanner.next().equals("abort")) {
-                break;
-            }
-        }
-        scanner.close();
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
     }
 
     public void setProgram(Program program) {
         if (program != null) {
             this.currentProgram = program;
+            this.timer = new Timer(currentProgram.getDuration());
         }
     }
 
-    private void addPrograms(ArrayList<Program> list){
+    private void addPrograms(ArrayList<Program> list) {
         list.add(new Program("Double Rinse", 240));
         list.add(new Program("Intense", 120));
         list.add(new Program("Quick", 60));

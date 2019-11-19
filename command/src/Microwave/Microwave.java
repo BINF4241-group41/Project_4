@@ -4,15 +4,18 @@ package Microwave;
 public class Microwave extends General.Device implements General.IOnOffSwitchable, General.IStartStoppable, General.ITimerSet, General.ITimerCheck, General.ITemperatureSettable {
 
     private boolean on;
-    private int temperature;
+    private int temperature = -1;
     private General.Timer timer = null;
-    private boolean running;
+    private Thread timerThread = null;
 
     public Microwave(String deviceName) {
         this.name = deviceName;
         this.on = false;
         this.temperature = 0;
-        this.running = false;
+    }
+
+    public boolean isRunning() {
+        return timer != null && timer.isRunning();
     }
 
     public void setTemperature(int temperature) {
@@ -24,24 +27,24 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
     }
 
     public void start() {
-        if (on && temperature > 0 && timer != null ) {
-            Thread t = new Thread(timer);
-            running = true;
-            t.start();
+        if (on && temperature >= 0 && timer != null ) {
+            timerThread = new Thread(timer);
+            timerThread.start();
         }
     }
 
     public int checkTimer() {
-        if (running && timer != null) {
+        if (on && timer != null && isRunning()) {
             return timer.getTime();
         }
         return 0;
     }
 
     public void stop() {
-        if (running) {
-            running = false;
+        if (isRunning()) {
+            timerThread = null;
             timer = null;
+            temperature = -1;
         }
     }
 
@@ -51,9 +54,5 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
 
     public void switchOff() {
         this.on = false;
-    }
-
-    public boolean isOn() {
-        return on;
     }
 }

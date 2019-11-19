@@ -9,10 +9,6 @@ public class CSwitchOff implements ICommand {
         this.switchable = switchable;
     }
 
-    public boolean isAvailable() {
-        return this.switchable.isOn();
-    }
-
     public String getName() {
         return "SwitchOff";
     }

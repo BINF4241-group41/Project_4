@@ -10,30 +10,33 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
 
     private boolean on;
     private ArrayList<Program> programs;
-    private boolean running;
-    private General.Timer timer = null;
     private Program currentProgram;
+    private General.Timer timer;
+    private Thread timerThread;
+    private long startTime; // time when it was last started
 
     public Dishwasher(String deviceName) {
+        this.on = false;
+        this.timer = null;
+        this.timerThread = null;
         this.name = deviceName;
         this.currentProgram = Program.getNoProgram();
         this.programs = new ArrayList<Program>();
         addPrograms(programs);
-        this.running = false;
-        on = false;
-
-    }
-    public String getProgram() {
-        return currentProgram.getName();
     }
 
-    private void setTimer(int time) {
-        this.timer= new General.Timer(time*1000);
+    public boolean isRunning() {
+        return timer != null && timer.isRunning();
     }
 
     public int checkTimer() {
-        if (timer != null) {
-           return timer.getTime();
+        if (timer != null && isRunning()) {
+            if (isRunning()) {
+                return (int)((timer.getTime() - startTime) / 1000);
+            }
+            else {
+                return timer.getTime();
+            }
         }
         return 0;
     }
@@ -47,17 +50,18 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     }
 
     public void start() {
-        if (this.on && timer != null){
-            Thread t = new Thread(timer);
-            running = true;
-            t.start();
+        if (this.on && timer != null && this.currentProgram != Program.getNoProgram()) {
+            timerThread = new Thread(timer);
+            timerThread.start();
+            startTime = System.currentTimeMillis();
         }
     }
 
     public void stop() {
-        if (running) {
-            running = false;
+        if (isRunning()) {
+            timerThread = null;
             timer = null;
+            this.currentProgram = Program.getNoProgram();
         }
     }
 
@@ -67,10 +71,6 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
 
     public void switchOff() {
         this.on = false;
-    }
-
-    public boolean isOn() {
-        return this.on;
     }
 
     private void addPrograms(ArrayList<Program> list) {
@@ -84,9 +84,11 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
         return new ArrayList<Program>(this.programs);
     }
 
+    // check if program available?
     public void setProgram(Program program) {
         if (program != null) {
             this.currentProgram = program;
+            this.timer = new General.Timer(program.getDuration());
         }
     }
 }

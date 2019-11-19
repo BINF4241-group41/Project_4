@@ -10,20 +10,20 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     private boolean on = false;
 
-    private boolean isRunning() {
-        return (this.timer != null && this.timer.isRunning());
-    };
-
     private int temperature = 0;
     private ArrayList<Program> programs = new ArrayList<Program>();
     private Program currentProgram = Program.getNoProgram();
     private General.Timer timer = null;
-    private Thread myThread = null; // thread for timer
+    private Thread timerThread = null;
 
 
     public Oven(String deviceName) {
         this.name = deviceName;
         addPrograms(programs);
+    }
+
+    public boolean isRunning() {
+        return (this.timer != null && this.timer.isRunning());
     }
 
     public void setTimer(int time) {
@@ -36,8 +36,8 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     public void start() {
         if (this.on && (temperature > 0) && (currentProgram != Program.getNoProgram()) && timer != null) {
-            this.myThread = new Thread(timer);
-            this.myThread.start();
+            this.timerThread = new Thread(timer);
+            this.timerThread.start();
         }
     }
 
@@ -49,8 +49,8 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
     }
 
     public void stop() {
-        if (this.myThread != null && this.timer.isRunning()) {
-            this.myThread = null;
+        if (this.timerThread != null && this.timer.isRunning()) {
+            this.timerThread = null;
         }
 
         this.timer = null;
@@ -111,9 +111,5 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     public void switchOff() {
         this.on = false;
-    }
-
-    public boolean isOn() {
-        return on;
     }
 }
