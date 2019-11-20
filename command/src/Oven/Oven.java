@@ -10,7 +10,7 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     private boolean on = false;
 
-    private int temperature = 0;
+    private int temperature = -1; // needs to be non-negative 0
     private ArrayList<Program> programs = new ArrayList<Program>();
     private Program currentProgram = Program.getNoProgram();
     private General.Timer timer = null;
@@ -27,35 +27,38 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
     }
 
     public void setTimer(int time) {
-        this.timer = new General.Timer(time*1000);
+        if (this.on) {
+            this.timer = new General.Timer(time * 1000);
+        }
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        if (this.on && temperature >= 0) {
+            this.temperature = temperature;
+        }
     }
 
     public void start() {
-        if (this.on && (temperature > 0) && (currentProgram != Program.getNoProgram()) && timer != null) {
+        if (this.on && (temperature >= 0) && (currentProgram != Program.getNoProgram()) && timer != null) {
             this.timerThread = new Thread(timer);
             this.timerThread.start();
         }
     }
 
     public int checkTimer() {
-        if (timer != null) {
-            return timer.getTime();
+        if (this.on && timer != null) {
+            return (timer.getRemainingTime() / 1000);
         }
         return 0;
     }
 
     public void stop() {
-        if (this.timerThread != null && this.timer.isRunning()) {
+        if (this.on && isRunning()) {
             this.timerThread = null;
+            this.timer = null;
+            this.temperature = 0;
+            this.currentProgram = Program.getNoProgram();
         }
-
-        this.timer = null;
-        this.temperature = 0;
-        this.currentProgram = Program.getNoProgram();
     }
 
     private void addPrograms(ArrayList<Program> list) {
@@ -64,7 +67,7 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
     }
 
     public void setProgram(Program program) {
-        if (program != null) {
+        if (this.on && program != null) {
             this.currentProgram = program;
         }
     }

@@ -3,8 +3,8 @@ package General;
 public class Timer implements Runnable{
 
     private boolean running;
-    private int totalTime;
-    private int remainingTime;
+    private int totalTime; // in ms
+    private int remainingTime; // in ms
 
     public Timer(int time) {
         this.running = false;

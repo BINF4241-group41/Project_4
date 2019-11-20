@@ -19,15 +19,19 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        if (this.on) {
+            this.temperature = temperature;
+        }
     }
 
     public void setTimer(int durationInSeconds) {
-        this.timer = new General.Timer(durationInSeconds*1000);
+        if (this.on) {
+            this.timer = new General.Timer(durationInSeconds * 1000);
+        }
     }
 
     public int checkTimer() {
-        if (on && timer != null) {
+        if (this.on && timer != null) {
             return (timer.getRemainingTime() / 1000);
         }
         return 0;
@@ -41,7 +45,7 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
     }
 
     public void stop() {
-        if (isRunning()) {
+        if (on && isRunning()) {
             timerThread = null;
             timer = null;
             temperature = -1;

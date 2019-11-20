@@ -40,7 +40,7 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
     }
 
     public void start() {
-        if (!isRunning() && this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
+        if (this.on && !isRunning() && this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
             this.timer = new Timer(this.currentProgram.getDuration());
             this.timerThread = new Thread(this.timer);
             this.timerThread.start();
@@ -48,7 +48,7 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
     }
 
     public void stop() {
-        if (!isRunning()) {
+        if (this.on && !isRunning()) {
             this.timerThread = null;
             this.timer = null;
             this.currentProgram = Program.getNoProgram();
@@ -57,11 +57,13 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        if (this.on) {
+            this.temperature = temperature;
+        }
     }
 
     public void setProgram(Program program) {
-        if (program != null) {
+        if (this.on && program != null) {
             this.currentProgram = program;
             this.timer = new Timer(currentProgram.getDuration());
         }

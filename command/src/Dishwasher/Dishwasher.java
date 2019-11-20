@@ -29,7 +29,7 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     }
 
     public int checkTimer() {
-        if (timer != null) {
+        if (this.on && timer != null) {
             return (timer.getRemainingTime() / 1000);
         }
         return 0;
@@ -51,7 +51,7 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     }
 
     public void stop() {
-        if (isRunning()) {
+        if (this.on && isRunning()) {
             timerThread = null;
             timer = null;
             this.currentProgram = Program.getNoProgram();
@@ -79,7 +79,7 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
 
     // check if program available?
     public void setProgram(Program program) {
-        if (program != null) {
+        if (this.on && program != null) {
             this.currentProgram = program;
             this.timer = new General.Timer(program.getDuration() * 1000);
         }

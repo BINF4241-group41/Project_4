@@ -65,6 +65,7 @@ public class Smartphone {
                 new CStart(oven),
                 new CStop(oven),
                 new CSetTimer(oven),
+                new CCheckTimer(oven),
                 new CSetTemperature(oven),
                 new CSelectProgram(oven)
         });
