@@ -26,18 +26,18 @@ public class Microwave extends General.Device implements General.IOnOffSwitchabl
         this.timer = new General.Timer(durationInSeconds*1000);
     }
 
+    public int checkTimer() {
+        if (on && timer != null) {
+            return (timer.getRemainingTime() / 1000);
+        }
+        return 0;
+    }
+
     public void start() {
         if (on && temperature >= 0 && timer != null ) {
             timerThread = new Thread(timer);
             timerThread.start();
         }
-    }
-
-    public int checkTimer() {
-        if (on && timer != null && isRunning()) {
-            return timer.getTime();
-        }
-        return 0;
     }
 
     public void stop() {

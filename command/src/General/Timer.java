@@ -29,7 +29,7 @@ public class Timer implements Runnable{
         try {
             running = true;
             // update remaining time every 100ms
-            while (remainingTime >= 100) {
+            while (remainingTime > 100) {
                 Thread.sleep(100);
                 this.remainingTime -= 100;
             }

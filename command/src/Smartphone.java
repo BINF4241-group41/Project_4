@@ -55,6 +55,7 @@ public class Smartphone {
                 new CStart(microwave),
                 new CStop(microwave),
                 new CSetTimer(microwave),
+                new CCheckTimer(microwave),
                 new CSetTemperature(microwave)
         });
 
@@ -142,13 +143,14 @@ public class Smartphone {
             input = inputScanner.next();
 
             if (input.equals("exit")) {
-                break;
+                return;
             }
 
             for (ICommand nextCommand : currentCommands) {
                 if (nextCommand.getName().equals(input)) {
                     nextCommand.execute();
                     System.out.println("Executed function " + nextCommand.getName());
+                    continue;
                 }
             }
         }
