@@ -84,4 +84,25 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
             this.timer = new General.Timer(program.getDuration() * 1000);
         }
     }
+
+    public String toString() {
+        String status = "Device: Dishwasher\n";
+
+        if (this.on) {
+            if (isRunning()) {
+                status += "Device is switched on and running.\n";
+            }
+            else {
+                status += "Device is switched on.\n";
+            }
+        }
+        else {
+            status += "Device is switched off.\n";
+        }
+        if (this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
+            status += "Program: " + this.currentProgram.getName() + " with duration " + this.currentProgram.getDuration();
+        }
+
+        return status;
+    }
 }

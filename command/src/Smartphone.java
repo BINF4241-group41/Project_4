@@ -132,6 +132,8 @@ public class Smartphone {
 
         while (true) {
 
+            System.out.println(currentDevice.toString());
+
             String commandsString = "Functions available for device " + currentDevice.getName() + ":\n";
 
             for (ICommand command : currentCommands) {

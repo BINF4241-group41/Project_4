@@ -136,4 +136,21 @@ public class CleaningRobot extends General.Device implements General.ITimerSet, 
             return ((float)cleaningTime / (float)this.cleaningDuration);
         }
     }
+
+    @Override
+    public String toString() {
+        String status = "Device: CleaningRobot\n";
+
+        if (this.cleaningDuration > 0) {
+            status += "Timer is set to: " + this.cleaningDuration + ".\n";
+        }
+        else {
+            status += "Timer is not set.\n";
+        }
+        if (this.thread != null) {
+            status += "Device is cleaning.";
+        }
+
+        return status;
+    }
 }

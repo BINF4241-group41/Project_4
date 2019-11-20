@@ -8,4 +8,8 @@ public class Device {
     public String getName() {
         return this.name;
     }
+
+    public String toString() {
+        return "Name: " + this.name;
+    }
 }

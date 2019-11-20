@@ -2,9 +2,8 @@ package WashingMachine;
 
 import General.*;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class WashingMachine extends Device implements General.IOnOffSwitchable, General.IStartStoppable, IProgramSelectable {
@@ -78,5 +77,29 @@ public class WashingMachine extends Device implements General.IOnOffSwitchable, 
 
     public ArrayList<Program> getPrograms() {
         return new ArrayList<Program>(this.programs);
+    }
+
+    public String toString() {
+        String status = "Device: WashingMachine\n";
+
+        if (this.on) {
+            if (isRunning()) {
+                status += "Device is switched on and running.\n";
+            }
+            else {
+                status += "Device is switched on.\n";
+            }
+        }
+        else {
+            status += "Device is switched off.\n";
+        }
+        if (this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
+            status += "Program: " + this.currentProgram.getName() + "\n";
+        }
+        if (temperature >= 0) {
+            status += "Temperature: " + this.temperature + "\n";
+        }
+
+        return status;
     }
 }

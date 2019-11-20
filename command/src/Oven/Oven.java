@@ -72,38 +72,6 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
         }
     }
 
-
-    /*
-    public String display() {
-
-        String output;
-
-        if (!this.on) {
-            output = "Oven isn't on.";
-        }
-
-        else if (isRunning()) {
-            output = "Currently running the following program:\n";
-            output += "The program is " + currentProgram.getName() + ", ";
-            output += "temperature: " + temperature + ", ";
-            output += "total timer duration: " + timer.getTime() + ".";
-        }
-
-        else if (Finished running) {
-            output += "The temperature is " + temperature + ", ";
-            output += "the program is " + currentProgram.getName() + ", ";
-            output += "total timer duration: " + timer.getTime() + ".";
-        }
-
-        else {
-            // reset
-        }
-
-        return output;
-    }
-     */
-
-
     public ArrayList<Program> getPrograms() {
         return new ArrayList<Program>(this.programs);
     }
@@ -114,5 +82,32 @@ public class Oven extends General.Device implements General.IOnOffSwitchable, Ge
 
     public void switchOff() {
         this.on = false;
+    }
+
+    public String toString() {
+        String status = "Device: Oven\n";
+
+        if (this.on) {
+            if (isRunning()) {
+                status += "Device is switched on and running.\n";
+            }
+            else {
+                status += "Device is switched on.\n";
+            }
+        }
+        else {
+            status += "Device is switched off.\n";
+        }
+        if (this.temperature >= 0) {
+            status += "Temperature is set to " + this.temperature + ".\n";
+        }
+        if (this.timer != null) {
+            status += "Timer is set to " + this.timer.getTime() + ".\n";
+        }
+        if (this.currentProgram != null && this.currentProgram != Program.getNoProgram()) {
+            status += "Program is set to " + this.currentProgram.getName() + ".\n";
+        }
+
+        return status;
     }
 }
