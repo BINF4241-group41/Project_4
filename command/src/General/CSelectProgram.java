@@ -17,8 +17,12 @@ public class CSelectProgram implements General.ICommand {
 
     public void execute() {
 
-        System.out.println("Please enter the name of the program you want.\n");
-        System.out.println("Available programs: " + this.programSelectable.getPrograms());
+        System.out.println("Please enter the name of the program you want (enter exit to exit).\n");
+        System.out.println("Available programs: ");
+        for (Program program : this.programSelectable.getPrograms()) {
+            System.out.println("- " + program.getName());
+        }
+
         Scanner scanner = new Scanner(System.in);
 
         Program selectedProgram = Program.getNoProgram();
@@ -26,12 +30,16 @@ public class CSelectProgram implements General.ICommand {
         while (scanner.hasNext()) {
             String programString = scanner.next();
             for (Program program: this.programSelectable.getPrograms()) {
-                if (programString.equals(program.getName())) {
+                if (program.getName().equals(programString)) {
                     selectedProgram = program;
+                    this.programSelectable.setProgram(selectedProgram);
+                    return;
                 }
             }
+            if (programString.equals("exit")) {
+                return;
+            }
+            System.out.println("Program not found.");
         }
-
-        this.programSelectable.setProgram(selectedProgram);
     }
 }

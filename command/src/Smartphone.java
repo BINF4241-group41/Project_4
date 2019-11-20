@@ -137,7 +137,7 @@ public class Smartphone {
             }
 
             System.out.println(commandsString);
-            System.out.println("Type exit to exit the program.");
+            System.out.println("Type exit to go back to the overview.");
 
             input = inputScanner.next();
 

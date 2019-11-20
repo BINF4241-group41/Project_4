@@ -13,7 +13,6 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     private Program currentProgram;
     private General.Timer timer;
     private Thread timerThread;
-    private long startTime; // time when it was last started
 
     public Dishwasher(String deviceName) {
         this.on = false;
@@ -30,13 +29,8 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     }
 
     public int checkTimer() {
-        if (timer != null && isRunning()) {
-            if (isRunning()) {
-                return (int)((timer.getTime() - startTime) / 1000);
-            }
-            else {
-                return timer.getTime();
-            }
+        if (timer != null) {
+            return (timer.getRemainingTime() / 1000);
         }
         return 0;
     }
@@ -53,7 +47,6 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
         if (this.on && timer != null && this.currentProgram != Program.getNoProgram()) {
             timerThread = new Thread(timer);
             timerThread.start();
-            startTime = System.currentTimeMillis();
         }
     }
 
@@ -88,7 +81,7 @@ public class Dishwasher extends General.Device implements General.IOnOffSwitchab
     public void setProgram(Program program) {
         if (program != null) {
             this.currentProgram = program;
-            this.timer = new General.Timer(program.getDuration());
+            this.timer = new General.Timer(program.getDuration() * 1000);
         }
     }
 }
