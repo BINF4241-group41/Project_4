@@ -20,6 +20,5 @@ public class CSetTimer implements ICommand {
         System.out.println("Set the timer interval:");
         int time = s.nextInt();
         this.canSetTimerObject.setTimer(time);
-        s.close();
     }
 }

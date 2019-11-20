@@ -22,6 +22,5 @@ public class CSetTemperature implements ICommand {
         if (temp >= 0) {
             this.temperatureSettable.setTemperature(temp);
         }
-        s.close();
     }
 }

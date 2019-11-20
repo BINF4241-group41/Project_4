@@ -142,18 +142,15 @@ public class Smartphone {
             input = inputScanner.next();
 
             if (input.equals("exit")) {
-                return;
+                break;
             }
 
             for (ICommand nextCommand : currentCommands) {
                 if (nextCommand.getName().equals(input)) {
                     nextCommand.execute();
                     System.out.println("Executed function " + nextCommand.getName());
-                    continue;
                 }
             }
-
-            System.out.println("Device not found.");
         }
     }
 }

@@ -23,16 +23,15 @@ public class CSelectTemperatureWM implements General.ICommand {
                 int nextInt = scanner.nextInt();
                 if (nextInt == 40 || nextInt == 60 || nextInt == 90) {
                     washingMachine.setTemperature(nextInt);
-                    break;
+                    return;
                 }
                 else {
                     System.out.println("Please select one of the provided values.");
                 }
             }
             else if (scanner.next().equals("abort")) {
-                break;
+                return;
             }
         }
-        scanner.close();
     }
 }

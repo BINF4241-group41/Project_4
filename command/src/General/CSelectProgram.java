@@ -32,7 +32,6 @@ public class CSelectProgram implements General.ICommand {
             }
         }
 
-        scanner.close();
         this.programSelectable.setProgram(selectedProgram);
     }
 }
