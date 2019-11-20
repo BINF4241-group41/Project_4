@@ -15,6 +15,6 @@ public class CCheckBatteryStatusCR implements General.ICommand {
 
     public void execute() {
         float status = this.cleaningRobot.checkBatteryStatus();
-        System.out.println("Battery status: " + status);
+        System.out.println("Battery status: " + status*100 + "%");
     }
 }
